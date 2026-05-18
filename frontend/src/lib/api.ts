@@ -5,7 +5,7 @@ function getToken(): string | null {
 }
 
 interface RequestOptions extends RequestInit {
-  body?: string | object | null;
+  body?: string | null;
 }
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {

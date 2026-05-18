@@ -95,7 +95,7 @@ export function DataTable<T>({
                       borderBottom: `1px solid ${tokens.colors.background}`,
                     }}
                   >
-                    {col.render ? col.render(item) : String(item[col.key] ?? '')}
+                    {col.render ? col.render(item) : String((item as Record<string, unknown>)[col.key] ?? '')}
                   </td>
                 ))}
               </tr>
