@@ -17,7 +17,7 @@ export class Plant {
   @Column({ default: 'pending' })
   germinationStatus: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   notes: string | null;
 
   @CreateDateColumn()
