@@ -6,6 +6,11 @@ import { JwtAuthGuard } from './jwt.guard';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Get('health')
+  health() {
+    return { status: 'ok' };
+  }
+
   @Post('register')
   async register(@Body() body: { username: string; email: string; password: string; role?: 'admin' | 'user' }) {
     const user = await this.authService.register(body);

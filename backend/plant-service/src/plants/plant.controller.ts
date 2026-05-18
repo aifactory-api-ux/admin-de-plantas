@@ -3,10 +3,15 @@ import { PlantService } from './plant.service';
 import { JwtAuthGuard } from './jwt.guard';
 
 @Controller('api/plants')
-@UseGuards(JwtAuthGuard)
 export class PlantController {
   constructor(private plantService: PlantService) {}
 
+  @Get('health')
+  health() {
+    return { status: 'ok' };
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.plantService.findAll();
