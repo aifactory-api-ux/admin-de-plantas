@@ -31,7 +31,8 @@ services:
 
   auth-service:
     build:
-      context: ./backend/auth-service
+      context: ./backend
+      dockerfile: ./auth-service/Dockerfile
     container_name: plantas-auth-service
     environment:
       NODE_ENV: production
@@ -61,7 +62,8 @@ services:
 
   plant-service:
     build:
-      context: ./backend/plant-service
+      context: ./backend
+      dockerfile: ./plant-service/Dockerfile
     container_name: plantas-plant-service
     environment:
       NODE_ENV: production
@@ -87,7 +89,8 @@ services:
 
   notification-service:
     build:
-      context: ./backend/notification-service
+      context: ./backend
+      dockerfile: ./notification-service/Dockerfile
     container_name: plantas-notification-service
     environment:
       NODE_ENV: production
@@ -117,7 +120,8 @@ services:
 
   report-service:
     build:
-      context: ./backend/report-service
+      context: ./backend
+      dockerfile: ./report-service/Dockerfile
     container_name: plantas-report-service
     environment:
       NODE_ENV: production

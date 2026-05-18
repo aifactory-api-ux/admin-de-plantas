@@ -4,10 +4,12 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY plant-service/package*.json ./
+COPY plant-service/tsconfig.json ./
 RUN npm install
 
-COPY . .
+COPY plant-service/src ./src
+COPY shared ./shared
 
 RUN npm run build
 

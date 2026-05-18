@@ -4,10 +4,11 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY package*.json tsconfig.json ./
+COPY auth-service/package*.json ./
+COPY auth-service/tsconfig.json ./
 RUN npm install
 
-COPY src ./src
+COPY auth-service/src ./src
 COPY shared ./shared
 
 RUN npm run build

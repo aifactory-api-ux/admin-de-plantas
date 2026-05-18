@@ -4,10 +4,12 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY notification-service/package*.json ./
+COPY notification-service/tsconfig.json ./
 RUN npm install
 
-COPY . .
+COPY notification-service/src ./src
+COPY shared ./shared
 
 RUN npm run build
 

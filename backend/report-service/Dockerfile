@@ -4,10 +4,12 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY report-service/package*.json ./
+COPY report-service/tsconfig.json ./
 RUN npm install
 
-COPY . .
+COPY report-service/src ./src
+COPY shared ./shared
 
 RUN npm run build
 
