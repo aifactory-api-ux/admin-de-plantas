@@ -7,7 +7,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() body: { username: string; email: string; password: string; role?: string }) {
+  async register(@Body() body: { username: string; email: string; password: string; role?: 'admin' | 'user' }) {
     const user = await this.authService.register(body);
     return {
       id: user.id,
