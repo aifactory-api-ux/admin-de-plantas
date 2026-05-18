@@ -1,0 +1,164 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15.4
+    container_name: plantas-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+      POSTGRES_DB: plantas
+    ports:
+      - "25432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d plantas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2.1
+    container_name: plantas-redis
+    ports:
+      - "26379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+    container_name: plantas-auth-service
+    environment:
+      NODE_ENV: production
+      PORT: 23001
+      JWT_SECRET: supersecretjwtkey
+      JWT_EXPIRES_IN: 3600s
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+      POSTGRES_DB: plantas
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "23001:23001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:23001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  plant-service:
+    build:
+      context: ./backend/plant-service
+    container_name: plantas-plant-service
+    environment:
+      NODE_ENV: production
+      PORT: 23002
+      JWT_SECRET: supersecretjwtkey
+      JWT_EXPIRES_IN: 3600s
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+      POSTGRES_DB: plantas
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "23002:23002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:23002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  notification-service:
+    build:
+      context: ./backend/notification-service
+    container_name: plantas-notification-service
+    environment:
+      NODE_ENV: production
+      PORT: 23003
+      JWT_SECRET: supersecretjwtkey
+      JWT_EXPIRES_IN: 3600s
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+      POSTGRES_DB: plantas
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "23003:23003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:23003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  report-service:
+    build:
+      context: ./backend/report-service
+    container_name: plantas-report-service
+    environment:
+      NODE_ENV: production
+      PORT: 23004
+      JWT_SECRET: supersecretjwtkey
+      JWT_EXPIRES_IN: 3600s
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpw
+      POSTGRES_DB: plantas
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "23004:23004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:23004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: plantas-frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "23000:3000"
+    depends_on:
+      - auth-service
+      - plant-service
+      - notification-service
+      - report-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

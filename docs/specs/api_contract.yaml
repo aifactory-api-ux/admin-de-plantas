@@ -1,0 +1,154 @@
+openapi: 3.1.0
+info:
+  title: Derived API Contract
+  version: 1.0.0
+paths:
+  /api/auth/login:
+    post:
+      operationId: post_api_auth_login
+      responses:
+        '201':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/auth/me:
+    get:
+      operationId: get_api_auth_me
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/auth/register:
+    post:
+      operationId: post_api_auth_register
+      responses:
+        '201':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/notifications:
+    get:
+      operationId: get_api_notifications
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/notifications/mark-read:
+    post:
+      operationId: post_api_notifications_mark_read
+      responses:
+        '201':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/plants:
+    get:
+      operationId: get_api_plants
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      operationId: post_api_plants
+      responses:
+        '201':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/plants/:id:
+    delete:
+      operationId: delete_api_plants_id
+      responses:
+        '204':
+          description: Derived from SPEC.md
+    get:
+      operationId: get_api_plants_id
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+    patch:
+      operationId: patch_api_plants_id
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/reports:
+    get:
+      operationId: get_api_reports
+      responses:
+        '200':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/reports/generate:
+    post:
+      operationId: post_api_reports_generate
+      responses:
+        '201':
+          description: Derived from SPEC.md
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object

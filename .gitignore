@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.DS_Store
+*.pyc
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+*.swp
+*.swo
+*~
+.dockerignore
