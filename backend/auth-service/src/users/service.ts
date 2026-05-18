@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
+import { UserCreate } from '../../../shared/dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,7 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(userCreate: { username: string; email: string; password: string; role?: string }): Promise<User> {
+  async create(userCreate: UserCreate): Promise<User> {
     const existing = await this.userRepository.findOne({ where: { email: userCreate.email } });
     if (existing) {
       throw new Error('Email already exists');
@@ -42,7 +43,7 @@ export class UserService {
     return bcrypt.compare(password, user.password);
   }
 
-  async update(id: number, updateData: { role?: string }): Promise<User | null> {
+  async update(id: number, updateData: { role?: 'admin' | 'user' }): Promise<User | null> {
     await this.userRepository.update(id, updateData);
     return this.findById(id);
   }
