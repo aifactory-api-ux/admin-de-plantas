@@ -15,4 +15,4 @@ RUN npm run build
 
 EXPOSE 23002
 
-CMD ["node", "dist/src/main.js"]
+CMD ["node", "dist/main.js"]
