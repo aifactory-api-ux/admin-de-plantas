@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { api } from '../lib/api';
-import type { User, UserCreate, AuthToken } from '../types/auth';
+import type { AuthToken } from '../types/auth';
+import type { User, UserCreate } from '../types/user';
 
 interface UseAuthReturn {
   user: User | null;

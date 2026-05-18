@@ -5,7 +5,7 @@ function getToken(): string | null {
 }
 
 interface RequestOptions extends RequestInit {
-  body?: unknown;
+  body?: string | object | null;
 }
 
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
@@ -19,7 +19,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers,
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: typeof options.body === 'string' ? options.body : options.body ? JSON.stringify(options.body) : undefined,
   });
 
   if (!response.ok) {
@@ -36,7 +36,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
 
 export const api = {
   get: <T>(endpoint: string) => request<T>(endpoint, { method: 'GET' }),
-  post: <T>(endpoint: string, body: unknown) => request<T>(endpoint, { method: 'POST', body }),
-  patch: <T>(endpoint: string, body: unknown) => request<T>(endpoint, { method: 'PATCH', body }),
+  post: <T>(endpoint: string, body: object) => request<T>(endpoint, { method: 'POST', body }),
+  patch: <T>(endpoint: string, body: object) => request<T>(endpoint, { method: 'PATCH', body }),
   delete: <T>(endpoint: string) => request<T>(endpoint, { method: 'DELETE' }),
 };
