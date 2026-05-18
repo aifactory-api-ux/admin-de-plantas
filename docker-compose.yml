@@ -144,21 +144,21 @@ services:
 volumes:
   postgres_data:
 
-  frontend:
-    build:
-      context: ./frontend
-    container_name: plantas-frontend
-    environment:
-      VITE_API_URL: http://localhost:8000
-    ports:
-      - "23000:3000"
-    depends_on:
-      - auth-service
-      - plant-service
-      - notification-service
-      - report-service
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+frontend:
+  build:
+    context: ./frontend
+  container_name: plantas-frontend
+  environment:
+    VITE_API_URL: http://localhost:8000
+  ports:
+    - "23000:3000"
+  depends_on:
+    - auth-service
+    - plant-service
+    - notification-service
+    - report-service
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:3000"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
